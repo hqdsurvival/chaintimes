@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
    <color name="blue_251">#27a5e9</color>
+   
+   <color name="item_txt_base">#0C1740</color>
+   <color name="white_f4">#f4f4f4</color>
 </resources>

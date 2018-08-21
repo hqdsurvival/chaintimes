@@ -9,26 +9,26 @@ import java.io.Serializable;
  */
 public class LoginModel implements Serializable {
 
-	private String code;
-	private String expire;
-	private String token;
+	private String Code;
+	private String Expire;
+	private String Token;
 	public String getCode() {
-		return code;
+		return Code;
 	}
 	public void setCode(String code) {
-		this.code = code;
+		Code = code;
 	}
 	public String getExpire() {
-		return expire;
+		return Expire;
 	}
 	public void setExpire(String expire) {
-		this.expire = expire;
+		Expire = expire;
 	}
 	public String getToken() {
-		return token;
+		return Token;
 	}
 	public void setToken(String token) {
-		this.token = token;
+		Token = token;
 	}
 	
 	

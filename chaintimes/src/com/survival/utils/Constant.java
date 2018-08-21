@@ -16,6 +16,8 @@ package com.survival.utils;
 
 import java.io.File;
 
+import android.R.integer;
+
 
 /**常量工具类
  * @author Survival
@@ -26,6 +28,33 @@ public class Constant {
 	public static class Config{
 		//token tag
 		public static final String token_tag = "Bearer";
+		//用户信息存储
+		public static final String Shared_UserInfo = "userinfo";
+		public static final String User_Code_KEY = "user_code";
+		public static final String User_Name_Key = "user_name";
+		public static final String Head_Image_Key = "head_image"; 
+		public static final String Password_Key = "password";
+		public static final String User_Email_Key = "user_email";
+		public static final String MobilePhone_Key ="mobilephone"; 
+		public static final String AddTime_Key = "addtime";
+		
+		//短信类型
+		public static enum SendSmsEnum{
+			//登录
+			login ,
+			//注册
+			register ,
+			//重置密码
+			resetpass
+		}
+		//成功
+		public static final int RESULT_SUCCESS = 1;
+		//失败
+		public static final int RESULT_FAIL = 2;
+		//其他异常
+		public static final int RESULT_OTHER = 3;
+		//token异常
+		public static final int RESULT_TOKEN_ERROR = 401;
 	}
 	
 	//handler请求成功
@@ -38,20 +67,30 @@ public class Constant {
 	//是否是测试版本
 	public static final boolean ISDEBUG = false;
 	//数据服务器地址【网关】    http://172.16.30.122:15555/    119.23.134.105  s1.natapp.cc   http://cairuyi.com.cn:15554
-	public static final String URL= ISDEBUG ?  "http://172.16.32.8:8080/chaintimes/" : "http://172.16.32.8:8080/chaintimes/";
+	public static final String URL= ISDEBUG ?  "http://35.236.135.153:15559/chaintimes/" : "http://172.16.32.26:15559/chaintimes/";
 	
 	
 	//=========================================接口地址==================================================
 	//注册
-	public static final String URL_REGISTER = URL +"linking/register";
+	public static final String URL_REGISTER = URL +"register";
 	//登录
-	public static final String URL_LOGIN = URL +"linking/login";
+	public static final String URL_LOGIN = URL +"login";
 	//更新用户信息
-	public static final String URL_MODIFY= URL +"linking/user";
+	public static final String URL_MODIFY= URL +"user";
 	//获取用户信息
-	public static final String URL_GETUSERINFO= URL +"user/bitun";
+	public static final String URL_GETUSERINFO= URL +"userinfo";
 	//用户是否存在
-	public static final String URL_EXISTUSERNAME= URL +"linking/username";
+	public static final String URL_EXISTUSERNAME= URL +"username";
+	//发送短信验证码
+	public static final String URL_SENDSMS= URL +"sendsms";
+	//发送邮箱验证码
+	public static final String URL_SENDEMAIL= URL +"sendemail";
+	//获取所有货币信息
+	public static final String URL_COIN = URL + "coin";
+	//获取用户资产
+	public static final String URL_WALLET = URL + "wallet";
+	//更新关注状态
+	public static final String URL_WALLET_UPDATE = URL + "walletUpdate";
 		
 	//=========================================接口地址==================================================
 	

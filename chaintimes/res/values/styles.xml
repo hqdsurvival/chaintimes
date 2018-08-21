@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -24,5 +24,16 @@
         <item name="android:layout_weight">1.0</item>
         <item name="android:button">@null</item>
         <item name="android:padding">1dp</item>
+    </style>
+    
+    <style name="tv_padding_10">
+        <item name="android:padding">10dp</item>
+    </style>
+    <style name="tv_padding_5">
+        <item name="android:padding">5dp</item>
+    </style>
+    <style name="txt_while">
+        <item name="android:textColor">@color/white_f4</item>
+        <item name="android:padding">10dp</item>
     </style>
 </resources>

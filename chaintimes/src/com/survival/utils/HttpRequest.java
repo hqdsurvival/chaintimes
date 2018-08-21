@@ -58,11 +58,17 @@ public class HttpRequest {
 
 	public static final String RANGE = "range";
 
-	public static final String USERNAME = "username";
-	public static final String PASSWORD = "password";
+	public static final String USERNAME = "user_name";
+	public static final String PASSWORD = "user_password";
+	public static final String HEADIMAGE = "head_image";
 	public static final String NAME = "name";
-	public static final String MOBILEPHONE = "mobliephone";
-	public static final String HEADIMAGE = "headimage";
+	public static final String MOBILEPHONE = "mobilephone";
+	public static final String MOTHOD = "mothod";
+	public static final String EMAIL = "email";
+	public static final String PAGE = "page";
+	public static final String USERCODE = "user_code";
+	public static final String COINNAME = "coin_name";
+	public static final String CONCERNSTATE = "concern_state";
 	
 	
 	
@@ -72,21 +78,49 @@ public class HttpRequest {
 	public static final int SEX_ALL = 3;
 	
 	
+	/**
+	 * 发送短信验证码
+	 * @param mobilephone   电话号码
+	 * @param mothod    方法
+	 * @param requestCode
+	 * @param listener
+	 */
+	public static void SendSms(final String mobilephone,final String mothod,
+			final int requestCode, final OnHttpResponseListener listener){
+		List<Parameter> paramList = new ArrayList<Parameter>();
+		addExistParameter(paramList, MOBILEPHONE, mobilephone);
+		addExistParameter(paramList, MOTHOD, mothod);
+		
+
+		HttpManager.getInstance().post(paramList, Constant.URL_SENDSMS, requestCode, listener);
+	}
+	/**
+	 * 发送邮箱验证码
+	 * @param mobilephone   电话号码
+	 * @param mothod    方法
+	 * @param requestCode
+	 * @param listener
+	 */
+	public static void SendEmail(final String email,
+			final int requestCode, final OnHttpResponseListener listener){
+		List<Parameter> paramList = new ArrayList<Parameter>();
+		addExistParameter(paramList, EMAIL, email);
+		
+		HttpManager.getInstance().post(paramList, Constant.URL_SENDEMAIL, requestCode, listener);
+	}
 
 	/**
 	 *  注册
 	 * @param username
 	 * @param password
-	 * @param name
-	 * @param mobliephone
+	 * @param head_image
 	 */
-	public static void Register(final String username,final String password,final String name,final String mobliephone,
+	public static void Register(final String username,final String password,final String head_image,
 			final int requestCode, final OnHttpResponseListener listener){
 		List<Parameter> paramList = new ArrayList<Parameter>();
 		addExistParameter(paramList, USERNAME, username);
 		addExistParameter(paramList, PASSWORD, password);
-		addExistParameter(paramList, NAME, name);
-		addExistParameter(paramList, MOBILEPHONE, mobliephone);
+		addExistParameter(paramList, HEADIMAGE, head_image);
 
 		HttpManager.getInstance().post(paramList, Constant.URL_REGISTER, requestCode, listener);
 	}
@@ -114,6 +148,55 @@ public class HttpRequest {
 		addExistParameter(paramList, USERNAME, username);
 
 		HttpManager.getInstance().post(paramList, Constant.URL_EXISTUSERNAME, requestCode, listener);
+	}
+	
+	/**
+	 *  获取用户信息
+	 * @param username
+	 */
+	public static void UserInfo(final String username,
+			final int requestCode, final OnHttpResponseListener listener){
+		List<Parameter> paramList = new ArrayList<Parameter>();
+		addExistParameter(paramList, USERNAME, username);
+
+		HttpManager.getInstance().post(paramList, Constant.URL_GETUSERINFO, requestCode, listener);
+	}
+	/**
+	 *  获取所有货币信息
+	 * @param username
+	 */
+	public static void Coin(final int page,
+			final int requestCode, final OnHttpResponseListener listener){
+		List<Parameter> paramList = new ArrayList<Parameter>();
+		addExistParameter(paramList, PAGE, page);
+		
+		HttpManager.getInstance().get(paramList, Constant.URL_COIN, requestCode, listener);
+	}
+	/**
+	 *  获取所有货币信息
+	 * @param username
+	 */
+	public static void Wallet(final String user_code,
+			final int requestCode, final OnHttpResponseListener listener){
+		List<Parameter> paramList = new ArrayList<Parameter>();
+		addExistParameter(paramList, USERCODE, user_code);
+		
+		HttpManager.getInstance().get(paramList, Constant.URL_WALLET, requestCode, listener);
+	}
+	/**
+	 *  更新关注状态
+	 * @param usercode  用户code
+	 * @param coin_name coin名称  
+	 * @param concern_state  关注状态 1 关注 2 不关注
+	 */
+	public static void walletUpdate(final String user_code,final String coin_name,final int concern_state,
+			final int requestCode, final OnHttpResponseListener listener){
+		List<Parameter> paramList = new ArrayList<Parameter>();
+		addExistParameter(paramList, USERCODE, user_code);
+		addExistParameter(paramList, COINNAME, coin_name);
+		addExistParameter(paramList, CONCERNSTATE, concern_state);
+		
+		HttpManager.getInstance().post(paramList, Constant.URL_WALLET_UPDATE, requestCode, listener);
 	}
 	
 	

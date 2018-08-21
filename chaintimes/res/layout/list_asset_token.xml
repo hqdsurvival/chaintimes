@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="30dp"
+    android:paddingBottom="30dp"
+     >
+    
+	<ImageView android:layout_width="45dp"
+	    android:layout_height="45dp"
+	    android:background="@drawable/btc"
+	    android:id="@+id/img_token"
+	    android:layout_alignParentLeft="true"/>
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="40dp"
+	    android:orientation="vertical"
+	    android:layout_toLeftOf="@+id/img_choice"
+	    android:layout_toRightOf="@+id/img_token">
+	    <TextView android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:gravity="center_vertical"
+	        android:textColor="@color/item_txt_base"
+	        android:paddingLeft="15dp"
+	        android:textSize="16sp"
+	        android:id="@+id/tv_token_name"/>
+	    <TextView android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:visibility="gone"
+	        android:id="@+id/tv_token_desc"/>
+	</LinearLayout>
+	<ImageView
+	    android:id="@+id/img_choice" 
+	    android:layout_width="20dp"
+	    android:layout_height="20dp"
+	    android:layout_marginTop="5dp"
+	    android:layout_alignParentRight="true"
+	    android:background="@drawable/check_no"/>
+</RelativeLayout>

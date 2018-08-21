@@ -1,5 +1,8 @@
 package com.blankj.utilcode.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * <pre>
  *     author: Blankj
@@ -190,4 +193,17 @@ public final class StringUtils {
         }
         return new String(chars);
     }
+    /**
+	 * 判断手机号码是否合法
+	 * @param mobiles
+	 * @return
+	 */
+	public static boolean isMobileNum(String telNum){
+		String regex = "^((13[0-9])|(15[0-9])|(17[0-9])|(18[0-9]))\\d{8}$";
+        Pattern p = Pattern.compile(regex,Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(telNum);
+        return m.matches();
+
+	}
+
 }

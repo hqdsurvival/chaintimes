@@ -1,15 +1,28 @@
 package com.survival.chaintimes;
 
+import java.util.List;
+
 import com.cry.library.base.BaseActivity;
+import com.cry.library.manager.HttpManager.OnHttpResponseListener;
+import com.cry.library.util.JSON;
+import com.cry.library.util.Log;
+import com.survival.application.ChainApplication;
+import com.survival.fragment.AssetChoiceTokenFragment;
 import com.survival.fragment.AssetFragment;
 import com.survival.fragment.InvestFragment;
 import com.survival.fragment.MarketFragment;
 import com.survival.fragment.MyFragment;
+import com.survival.model.JsonResult;
+import com.survival.model.User;
+import com.survival.utils.Constant;
+import com.survival.utils.HttpRequest;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,6 +48,8 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 	private static final int WEIGHT = 45;
 	private static final int HEIGHT = 45;
 	
+	private ChainApplication chainApplication;
+	
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +71,55 @@ public class MainActivity extends BaseActivity implements OnClickListener{
     @Override
 	public void initData() {
 		// TODO Auto-generated method stub
-  		defaultRadioBackground();
-	    
+    	chainApplication = (ChainApplication) getApplicationContext();
+
+  		rb_tab_asset.setChecked(true);
+  		AssetFragment assetFragment = new AssetFragment();
+		setFragmentReplace(R.id.fl_framelayout_content, assetFragment);
+
+		defaultRadioBackground();
+		
+		showProgressDialog(R.string.dialog_progress);
+		HttpRequest.UserInfo(chainApplication.getUserInfo().getUser_Name(), 1, new OnHttpResponseListener() {
+			
+			@Override
+			public void onHttpResponse(int requestCode, String resultJson, Exception e) {
+				// TODO Auto-generated method stub
+				dismissProgressDialog();
+				if(e !=null){
+					showShortToast(getResources().getString(R.string.result_fail));
+					return;
+				}
+
+				if(requestCode !=1){
+					showShortToast(getResources().getString(R.string.result_error));
+					return;
+				}
+				if(!JSON.isJsonCorrect(resultJson)){
+					showShortToast(getResources().getString(R.string.result_error));
+					return;
+				}
+				JsonResult result = JSON.parseObject(resultJson, JsonResult.class);
+				if(result ==null){
+					showShortToast(getResources().getString(R.string.result_fail));
+					return;
+				}
+				if(result.getCode() == Constant.Config.RESULT_TOKEN_ERROR){
+					chainApplication.saveUserInfo(new User());
+					startActivity(new Intent(getActivity(), LoginActivity.class));
+					finish();
+					return;
+				}
+				if(result.getCode() != Constant.Config.RESULT_SUCCESS){
+					showShortToast(getResources().getString(R.string.result_fail));
+					return;
+				}
+				User user = JSON.parseObject(result.getData(), User.class);
+				if(user !=null){
+					chainApplication.saveUserInfo(user);
+				}
+			}
+		});
 	}
     public void defaultRadioBackground(){
     	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -75,18 +137,18 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 	 	     rb_tab_market.setCompoundDrawables(null, drawhome, null, null);  //只放上面
 	    }
     	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>行情>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>理财产品>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>资产产品>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	    if(rb_tab_asset.isChecked()){
-	    	Drawable drawcheck = getResources().getDrawable(R.drawable.main_tab_asset_check); 
+	    	Drawable drawcheck = getResources().getDrawable(R.drawable.main_tab_asset_check_v2); 
 		    drawcheck.setBounds(0, 0, WEIGHT, HEIGHT);//第一0是距左右边距离，第二0是距上下边距离，第三69长度,第四宽度 
 		    rb_tab_asset.setCompoundDrawables(null, drawcheck, null, null);  //只放上面
 	    }else{
-	    	Drawable drawcheck = getResources().getDrawable(R.drawable.main_tab_asset); 
+	    	Drawable drawcheck = getResources().getDrawable(R.drawable.main_tab_asset_v2); 
 		    drawcheck.setBounds(0, 0, WEIGHT, HEIGHT);//第一0是距左右边距离，第二0是距上下边距离，第三69长度,第四宽度 
 		    rb_tab_asset.setCompoundDrawables(null, drawcheck, null, null);  //只放上面
 	    }
-    	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>理财产品>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>资产管理>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>资产产品>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>理财管理>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	    if(rb_tab_invest.isChecked()){
 	    	Drawable drawcheck = getResources().getDrawable(R.drawable.main_tab_invest_check); 
 		    drawcheck.setBounds(0, 0, WEIGHT, HEIGHT);//第一0是距左右边距离，第二0是距上下边距离，第三69长度,第四宽度 
@@ -96,7 +158,7 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 		    drawcheck.setBounds(0, 0, WEIGHT, HEIGHT);//第一0是距左右边距离，第二0是距上下边距离，第三69长度,第四宽度 
 		    rb_tab_invest.setCompoundDrawables(null, drawcheck, null, null);  //只放上面
 	    }
-    	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>资产管理>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>理财管理>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>我的>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	    if(rb_tab_my.isChecked()){
 	    	Drawable drawcheck = getResources().getDrawable(R.drawable.main_tab_my_check); 
@@ -149,7 +211,48 @@ public class MainActivity extends BaseActivity implements OnClickListener{
 	public void onActivityResult(int requestCode,int resultCode,Intent data){
 		super.onActivityResult(requestCode, resultCode, data);
 		
+		Log.d(TAG,Integer.toString(resultCode));
+		FragmentManager fm = getSupportFragmentManager();  
+        int index = requestCode >> 16;  
+        if (index != 0) {  
+            index--;  
+            if (fm.getFragments() == null || index < 0  
+                    || index >= fm.getFragments().size()) {  
+                Log.w(TAG, "Activity result fragment index out of range: 0x"  
+                        + Integer.toHexString(requestCode));  
+                return;  
+            }  
+            Fragment frag = fm.getFragments().get(index);  
+            if (frag == null) {  
+                Log.w(TAG, "Activity result no fragment exists for index: 0x"  
+                        + Integer.toHexString(requestCode));  
+            } else {  
+                handleResult(frag, requestCode, resultCode, data);  
+            }  
+            return;  
+        }  
+  
+		
 	}
+	/** 
+     * 递归调用，对所有子Fragement生效 
+     *  
+     * @param frag 
+     * @param requestCode 
+     * @param resultCode 
+     * @param data 
+     */  
+    private void handleResult(Fragment frag, int requestCode, int resultCode,  
+            Intent data) {  
+        frag.onActivityResult(requestCode & 0xffff, resultCode, data);  
+        List<Fragment> frags = frag.getChildFragmentManager().getFragments();  
+        if (frags != null) {  
+            for (Fragment f : frags) {  
+                if (f != null)  
+                    handleResult(f, requestCode, resultCode, data);  
+            }  
+        }  
+    }  
 
 	@Override
 	public Activity getActivity() {

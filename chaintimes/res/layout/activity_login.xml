@@ -95,7 +95,23 @@
                 android:id="@+id/txt_quick_login"
                 android:text="@string/quick_login"/>
             
-            <TextView
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="20dp"
+                android:gravity="right">
+                
+                <TextView
+                android:id="@+id/tv_remaber" 
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="right"
+                android:textSize="12sp"
+                android:layout_marginRight="20dp"
+                android:textColor="@color/blue_251"
+                android:text="@string/forgetpassword"/>
+                <TextView
                 android:id="@+id/tv_register" 
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
@@ -104,6 +120,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/blue_251"
                 android:text="@string/register"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

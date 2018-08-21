@@ -1,11 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:background="#e3effd"
+    android:layout_height="match_parent">
     
-	<TextView android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:gravity="center_vertical|center_horizontal"
-	    android:text="@string/coding"/>
-</LinearLayout>
+    <AbsoluteLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+		<FrameLayout android:layout_width="match_parent"
+		   android:layout_height="200dp"
+		   android:layout_x="0dp"
+		   android:layout_y="0dp"
+		    android:background="#0f70ee">
+		    <LinearLayout android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="vertical">
+		    <TextView android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        style="@style/tv_padding_10"
+		        android:gravity="center_horizontal"
+		        android:textColor="@color/white_f4"
+		        android:textSize="17sp"
+		        android:text="@string/main_tab_asset"
+		        />
+		    
+		    <LinearLayout android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="horizontal">
+		        <LinearLayout 
+		            android:layout_width="0dp"
+		            android:layout_height="match_parent"
+		            android:layout_weight="7"
+		            android:orientation="vertical">
+		            <LinearLayout 
+		                android:layout_width="match_parent"
+		                android:layout_height="wrap_content"
+		                android:paddingLeft="20dp"
+		                android:orientation="vertical">
+		                
+		                <TextView
+		                    style="@style/txt_while"
+		                    android:layout_width="wrap_content"
+		                    android:layout_height="wrap_content"
+		                    android:text="@string/asset_total"
+		                    android:textSize="12sp"
+		                    android:textStyle="bold" />
+
+		                <TextView android:layout_width="match_parent"
+			                android:layout_height="wrap_content"
+			                android:textColor="@color/white_f4"
+			                android:textSize="30sp"
+			                android:textStyle="bold"
+			                android:text="@string/asset_total"/>
+		            </LinearLayout>
+		            <LinearLayout android:layout_width="match_parent"
+		                android:layout_height="match_parent"
+		                android:paddingLeft="20dp"
+		                android:orientation="horizontal">
+		                <LinearLayout android:layout_width="0dp"
+		                    android:layout_height="match_parent"
+		                    android:layout_weight="1"
+		                    android:orientation="horizontal">
+
+		                    <TextView
+		                        style="@style/txt_while"
+		                        android:layout_width="wrap_content"
+		                        android:layout_height="match_parent"
+		                        android:gravity="center_vertical"
+		                        android:text="@string/asset_yue"
+		                        android:textSize="12sp" />
+
+		                </LinearLayout>
+		                <LinearLayout android:layout_width="0dp"
+		                    android:layout_height="match_parent"
+		                    android:layout_weight="1"
+		                    android:orientation="horizontal">
+
+		                    <TextView
+		                        style="@style/txt_while"
+		                        android:layout_width="wrap_content"
+		                        android:layout_height="match_parent"
+		                        android:gravity="center_vertical"
+		                        android:text="@string/asset_invest"
+		                        android:textSize="12sp" />
+
+		                </LinearLayout>
+		            </LinearLayout>
+		        </LinearLayout>
+		        <RelativeLayout
+		            android:layout_width="0dp"
+		            android:layout_height="match_parent"
+		            android:gravity="center_vertical|center_horizontal" 
+		            android:layout_weight="3">
+		            
+		            <ImageView
+		                android:id="@+id/img_choice_token"
+		                android:layout_width="63dp"
+		                android:layout_height="63dp"
+		                android:gravity="center_vertical|center_horizontal"
+		                android:background="@drawable/asset_add"/>
+		            
+		        </RelativeLayout>
+		    </LinearLayout>
+		    
+		    </LinearLayout>
+		    
+		</FrameLayout>
+		<LinearLayout android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical"
+		    android:layout_y="155dp">
+		    	<LinearLayout android:layout_width="match_parent"
+		    	    android:layout_height="wrap_content"
+		    	    android:layout_marginLeft="15dp"
+		    	    android:layout_marginRight="15dp"
+		    	     android:background="@drawable/asset_token_item"
+		    	    android:orientation="vertical">
+		    	    <com.github.mikephil.charting.charts.PieChart
+				        android:id="@+id/chart1"
+				        android:layout_margin="5dp"
+				        android:layout_width="match_parent"
+				        android:layout_height="175dp" />
+		    	</LinearLayout>
+		</LinearLayout>
+		<LinearLayout 
+		    android:id="@+id/ll_token"
+		    android:layout_x="0dp"
+		    android:layout_y="345dp"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical">
+		    
+		    
+		</LinearLayout>
+	</AbsoluteLayout>
+</ScrollView>

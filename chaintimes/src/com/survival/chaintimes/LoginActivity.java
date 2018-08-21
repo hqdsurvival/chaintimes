@@ -14,7 +14,9 @@ import com.cry.library.manager.HttpManager;
 import com.cry.library.manager.HttpManager.OnHttpResponseListener;
 import com.cry.library.util.JSON;
 import com.google.gson.Gson;
+import com.survival.application.ChainApplication;
 import com.survival.model.LoginModel;
+import com.survival.model.User;
 import com.survival.utils.Constant;
 import com.survival.utils.HttpRequest;
 /**
@@ -32,6 +34,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	private EditText edit_password;
 	private TextView txt_quick_login;
 	private TextView tv_register;
+	private TextView tv_remaber;
+	
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +55,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void initView() {
 		// TODO Auto-generated method stub
-		edit_user = findViewById(R.id.edit_user);
-		edit_password = findViewById(R.id.edit_password);
-		txt_quick_login = findViewById(R.id.txt_quick_login);
-		tv_register = findViewById(R.id.tv_register);
+		edit_user = (EditText) findViewById(R.id.edit_user);
+		edit_password = (EditText) findViewById(R.id.edit_password);
+		txt_quick_login = (TextView) findViewById(R.id.txt_quick_login);
+		tv_register = (TextView) findViewById(R.id.tv_register);
+		tv_remaber = (TextView) findViewById(R.id.tv_remaber);
 	}
 
 	@Override
@@ -67,14 +72,15 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 		// TODO Auto-generated method stub
 		txt_quick_login.setOnClickListener(this);
 		tv_register.setOnClickListener(this);
+		tv_remaber.setOnClickListener(this);
 	}
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch(v.getId()){
 		case R.id.txt_quick_login:
-			String username = edit_user.getText().toString();
-			String password = edit_password.getText().toString();
+			final String username = edit_user.getText().toString();
+			final String password = edit_password.getText().toString();
 			if(StringUtils.isEmpty(username)){
 				showShortToast(R.string.empty_username);
 				return;
@@ -83,11 +89,13 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 				showShortToast(R.string.empty_password);
 				return;
 			}
+			showProgressDialog(R.string.dialog_progress);
 			HttpRequest.Login(username, password, LOGIN_CODE, new OnHttpResponseListener() {
 				
 				@Override
 				public void onHttpResponse(int requestCode, String resultJson, Exception e) {
 					// TODO Auto-generated method stub
+					dismissProgressDialog();
 					if(LOGIN_CODE != requestCode){
 						showShortToast(R.string.request_error);
 						return;
@@ -103,7 +111,15 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 						return;
 					}
 					if(loginModel.getCode().equals("200")){
-						HttpManager.getInstance().saveToken(Constant.Config.token_tag, loginModel.getToken());
+						ChainApplication application = (ChainApplication) getApplicationContext();
+						User user = new User();
+						user.setUser_Name(username);
+						user.setPasssWord(password);
+						application.saveUserInfo(user);
+						
+						
+						
+						HttpManager.getInstance().saveToken(HttpManager.KEY_TOKEN, Constant.Config.token_tag+ " " +loginModel.getToken());
 						startActivity(new Intent(getActivity(),MainActivity.class));
 						finish();
 					}else{
@@ -114,7 +130,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 			});
 			break;
 		case R.id.tv_register:
-			startActivityForResult(new Intent(getActivity(), RegisterActivity.class), REGISTER_RESULT);
+			startActivity(new Intent(getActivity(), RegisterMobileActivity.class));
+			break;
+		case R.id.tv_remaber:
+			startActivity(new Intent(getActivity(),RememberMobileActivity.class));
 			break;
 		}
 	}

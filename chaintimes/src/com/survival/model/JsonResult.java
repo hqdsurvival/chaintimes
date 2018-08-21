@@ -1,14 +1,17 @@
-package com.survival.utils;
+package com.survival.model;
 
-public class ResultJson {
-	
-	private String Code;
+import java.io.Serializable;
+
+public class JsonResult implements Serializable{
+
+	private int Code;
 	private String Message;
 	private String Data;
-	public String getCode() {
+	
+	public int getCode() {
 		return Code;
 	}
-	public void setCode(String code) {
+	public void setCode(int code) {
 		Code = code;
 	}
 	public String getMessage() {
@@ -23,4 +26,5 @@ public class ResultJson {
 	public void setData(String data) {
 		Data = data;
 	}
+	
 }
